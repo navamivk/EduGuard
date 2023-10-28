@@ -8,3 +8,4 @@ The application is based on the **MVC pattern** i.e. Model View Controller.
 
 **Passport JS** is used for local(email, password) authentication.
 
+Testing git
