@@ -1,0 +1,101 @@
+<!-- <%- include('./layouts/header') %> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduGaurd</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <!-- <script src="https://kit.fontawesome.com/e5fc1ad569.js" crossorigin="anonymous"></script> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar__container">
+          <a href="/" id="navbar__logo"> EDUGUARD <i class="fas fa-trash"></i> </a>
+          <div class="navbar__toggle" id="mobile-menu">
+            <span class="bar"></span> 
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <ul class="navbar__menu">
+                <li class="navbar__item"><a href="/" class="navbar__links">Home</a></li>
+                <li class="navbar__item">
+                  <a href="#services" class="navbar__links" id="services-page">Services</a>
+                </li>
+                <% if (user) { %>
+                <li class="navbar__item"><a href="/user/profile" class="navbar__links">Profile</a></li>
+                <% if (user.role === 'ADMIN') { %>
+                <li class="navbar__item"><a href="/admin/users" class="navbar__links">Manage Students</a></li>
+                <% } %>
+                <li class="navbar__item"><a href="/auth/logout" class="navbar__links">Logout</a></li>
+                <% } else { %>
+                <li class="navbar__item"><a href="/auth/register" class="navbar__links">Register</a></li>
+                <li class="navbar__item"><a href="/auth/login" class="navbar__links">Login</a></li>
+                <% } %>
+          </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="hero__container">
+        <div class="hero__content">
+          <h1>SMART ONLINE</h1>
+          <h2>LEARNING PLATFORM</h2>
+          <p>For smarter universities</p>
+        </div>
+        <div class="hero__img--container">
+          <img id="hero__img" src="images/undraw_online_test_re_kyfx.svg" />
+        </div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="main" id="about">
+      <div class="main__container">
+        <div class="main__img--container">
+          <img id="main__img" src="images/pic2.svg" />
+        </div>
+        <div class="main__content">
+          <h1>What do we do?</h1>
+          <p>EduGuard is an online learning platform that caters to the academic needs of both students and faculty within educational institutions. At its core, this platform offers a secure and user-friendly environment for the seamless management of academic activities..  
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="services" id="services">
+      <h1>Explore Our Services</h1>
+      <div class="services__container">
+        <div class="services__card">
+          <h2>For Students</h2>
+          <form data-netlify="true">
+            <button formaction="https://eunomiamaps.abhishek0405200.repl.co/">Get Started</button>
+          </form>
+        </div>
+        <div class="services__card">
+          <h2>For Faculty</h2>
+          <form>
+            <button formaction="https://eunomianft.orectique.repl.co/">Get Started</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+   <!-- Footer Section -->
+   <div class="footer__container">
+    <p class="website__rights">© EDUGAURD 2021. All rights reserved</p>
+   </div>
+   
+  </div>
+  <script src="app.js"></script>
+  </body>
+</html>
+
+<%- include('./layouts/footer') %>
