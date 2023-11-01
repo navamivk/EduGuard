@@ -1,16 +1,29 @@
-<nav>
-  <h2>RBAC</h2>
-  <ul>
-    <li><a href="/">Home</a></li>
-    <% if (user) { %>
-    <li><a href="/user/profile">Profile</a></li>
-    <% if (user.role === 'ADMIN') { %>
-    <li><a href="/admin/users">Manage Users</a></li>
-    <% } %>
-    <li><a href="/auth/logout">Logout</a></li>
-    <% } else { %>
-    <li><a href="/auth/register">Register</a></li>
-    <li><a href="/auth/login">Login</a></li>
-    <% } %>
-  </ul>
+<nav class="navbar">
+  <div class="navbar__container">
+    <a href="/" id="navbar__logo"> EDUGUARD <i class="fas fa-trash"></i> </a>
+    <div class="navbar__toggle" id="mobile-menu">
+      <span class="bar"></span> 
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+    <ul class="navbar__menu">
+      <% if (user) { %>
+        <% if (user.role === 'ADMIN') { %>
+          <li class="navbar__item"><a href="/admin/a_dashboard" class="navbar__links">Home</a></li>
+          <li class="navbar__item"><a href="/admin/users" class="navbar__links">Manage Students</a></li>
+        <% } else if (user.role === 'CLIENT') { %> 
+          <li class="navbar__item"><a href="/user/s_dashboard" class="navbar__links">Home</a></li>
+        <% } %>
+        <li class="navbar__item"><a href="/user/profile" class="navbar__links">Profile</a></li>
+        <li class="navbar__item"><a href="/auth/logout" class="navbar__links">Logout</a></li>
+      <% } else { %>
+        <li class="navbar__item"><a href="/" class="navbar__links">Home</a></li>
+        <li class="navbar__item">
+          <a href="#services" class="navbar__links" id="services-page">Services</a>
+        </li>
+        <li class="navbar__item"><a href="/auth/register" class="navbar__links">Register</a></li>
+        <li class="navbar__item"><a href="/auth/login" class="navbar__links">Login</a></li>
+      <% } %>
+    </ul>
+  </div>
 </nav>

@@ -4,6 +4,10 @@ const createHttpError = require('http-errors');
 const { roles } = require('../utils/constants');
 
 const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,

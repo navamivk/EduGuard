@@ -74,4 +74,13 @@ router.post('/update-role', async (req, res, next) => {
   }
 });
 
+router.get('/a_dashboard', async (req, res, next) => {
+  // Render the user dashboard view here
+  try{
+    res.render('admindashboard', { user: req.user });
+  }catch(error){
+    next(error);
+  }
+});
+
 module.exports = router;

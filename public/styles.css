@@ -6,7 +6,7 @@
   }
 
   .navbar {
-    background: #084a5a;
+    background: #3c0303;
     height: 80px;
     display: flex;
     justify-content: center;
@@ -30,7 +30,7 @@
     padding-left: 50px;
   }
   #navbar__logo {
-    background-image: linear-gradient(to top, #6bcec9 0%, #b0eeeb 100%);
+    background-image: linear-gradient(to top, #ffffff 0%, #ffffff 100%);
     background-size: 100%;
     -webkit-background-clip: text;
     -moz-background-clip: text;
@@ -98,7 +98,7 @@
     }
   
     .navbar__menu.active {
-      background: #084a5a;
+      background: #3c0303;
       top: 100%;
       opacity: 1;
       transition: all 0.5s ease;
@@ -156,7 +156,7 @@
 
 /* Main Content CSS */
 .hero {
-  background-color: #084a5a;
+  background-color: #3c0303;
 }
 
 .hero__container {
@@ -166,7 +166,7 @@
   justify-self: center;
   margin: 0 auto;
   height: 90vh;
-  background-color: #084a5a;
+  background-color: #3c0303;
   z-index: 1;
   width: 100%;
   max-width: 1300px;
@@ -270,7 +270,7 @@
 
 /* About Section */
 .main {
-  background-color: #589fb1;
+  background-color: #ffaaaa;
 }
 
 .main__container {
@@ -280,7 +280,7 @@
   justify-self: center;
   margin: 0 auto;
   height: 100vh;
-  background-color: #589fb1;
+  background-color: #ffaaaa;
   z-index: 1;
   width: 100%;
   max-width: 1300px;
@@ -383,7 +383,7 @@
 
 /* Services Section */
 .services {
-  background: #84c5cf;
+  background: #f6e5e5;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -423,7 +423,7 @@
       rgba(0, 0, 0, 0) 0%,
       rgba(17, 17, 17, 0.6) 100%
     ),
-    url('/images/pic3.jpg');
+    url('/images/student.jpg');
   background-size: cover;
   position: relative;
   color: #fff;
@@ -439,7 +439,7 @@
       rgba(0, 0, 0, 0) 0%,
       rgba(17, 17, 17, 0.9) 100%
     ),
-    url('/images/pic4.jpg');
+    url('/images/prof.jpg');
 }
 
 .services__card h2 {
@@ -504,7 +504,7 @@
 
 /* Footer CSS */
 .footer__container {
-  background-color: #084a5a;
+  background-color: #3c0303;
   padding: 2rem ;
   display: flex;
   flex-direction: column;
@@ -522,3 +522,4 @@
   }
 
 }
+

@@ -18,10 +18,21 @@ router.post(
   ensureLoggedOut({ redirectTo: '/' }),
   passport.authenticate('local', {
     // successRedirect: '/',
-    successReturnToOrRedirect: '/',
+    //successReturnToOrRedirect: '/',
     failureRedirect: '/auth/login',
     failureFlash: true,
-  })
+  }),
+  (req, res) => {
+    // Check the user's role and redirect accordingly
+    if (req.user && req.user.role === 'CLIENT') {
+      res.redirect('/user/s_dashboard');
+    } else if (req.user && req.user.role === 'ADMIN') {
+      res.redirect('/admin/a_dashboard');
+    } else {
+      // Handle other cases, e.g., for different roles or a default redirect
+      res.redirect('/');
+    }
+  }
 );
 
 router.get(
@@ -44,20 +55,21 @@ router.post(
           req.flash('error', error.msg);
         });
         res.render('register', {
+          name: req.body.name,
           email: req.body.email,
           messages: req.flash(),
         });
         return;
       }
 
-      const { email } = req.body;
+      const { name, email } = req.body;
       const doesExist = await User.findOne({ email });
       if (doesExist) {
         req.flash('warning', 'Username/email already exists');
         res.redirect('/auth/register');
         return;
       }
-      const user = new User(req.body);
+      const user = new User({ name, email, ...req.body });
       await user.save();
       req.flash(
         'success',
