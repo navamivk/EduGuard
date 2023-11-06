@@ -209,7 +209,7 @@ form.lg-form {
   font-weight: bold;
 }
 
-.lg-form input {
+.lg-form input, .lg-form textarea {
   height: 44px;
   border: none;
   border-radius: 8px;

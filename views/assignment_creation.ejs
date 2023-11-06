@@ -1,0 +1,25 @@
+<%- include('./layouts/header') %>
+<h1>Assigment Creation</h1>
+<form action="/admin/assignments" method="POST" class="lg-form">
+    <div>
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" required />
+    </div>
+    <div>
+      <label for="subject">Subject</label>
+      <input type="text" name="subject" id="subject" required />
+    </div>
+    <div>
+      <label for="description">Description</label>
+      <textarea name="description" id="description" required></textarea>
+    </div>
+    <div>
+      <label for="deadline">Deadline</label>
+      <input type="date" name="deadline" id="deadline" required />
+    </div>
+    <div>
+      <input type="submit" value="Create Assignment" />
+    </div>     
+  </form>
+  
+<%- include('./layouts/footer') %>
