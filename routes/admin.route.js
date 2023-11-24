@@ -88,9 +88,8 @@ router.get('/a_dashboard', async (req, res, next) => {
 // Route to render the assignment creation form
 router.get('/assignments/create', async (req, res, next) => {
   try {
-    res.render('assignment_creation' ); // Render the assignment creation form
+    res.render('assignment_creation' ); 
   } catch (error) {
-    // Handle errors, e.g., render an error page
     next(error);
   }
 });
@@ -100,7 +99,7 @@ router.post('/assignments', async (req, res, next) => {
   try {
     const { title, subject, description, deadline } = req.body;
 
-    const adminId = req.user._id; // MongoDB ObjectId for the admin
+    const adminId = req.user._id; 
 
     const assignment = new Assignment({
       title,
@@ -124,7 +123,7 @@ router.post('/assignments', async (req, res, next) => {
 // View list of assignments by admin ID
 router.get('/assignments', async (req, res, next) => {
   try {
-    const adminId = req.user._id; // MongoDB ObjectId for the admin
+    const adminId = req.user._id; 
 
     const assignments = await Assignment.find({ 'teacher.id': adminId });
     res.render('assignments', { assignments });
@@ -158,11 +157,5 @@ router.get('/assignments/:id', async (req, res, next) => {
     next(error);
   }
 });
-
-
-
-
-
-
 
 module.exports = router;

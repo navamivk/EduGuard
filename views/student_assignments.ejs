@@ -1,0 +1,33 @@
+<%- include('./layouts/header') %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Assignments</title>
+</head>
+<body>
+    <h1>Student Assignments</h1>
+    <ul>
+        <% assignments.forEach(function(assignment) { %>
+            <li>
+                <h2><%= assignment.title %></h2>
+                <p><strong>Subject:</strong> <%= assignment.subject %></p>
+                <p><strong>Description:</strong> <%= assignment.description %></p>
+                <p><strong>Deadline:</strong> <%= assignment.deadline %></p>
+                <p><strong>Teacher:</strong> <%= assignment.teacher.name %></p>
+                <form action="/student/assignments/submit" method="post" class="lg-form">
+                    <input type="hidden" name="assignmentId" value="<%= assignment._id %>" />
+                    <textarea name="submissionText" placeholder="Your submission text"></textarea>
+                    <div>
+                        <input type="submit" value="Submit Assignment" />
+                    </div> 
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+
+</body>
+</html>
+
+
+<%- include('./layouts/footer') %>

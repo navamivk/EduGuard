@@ -4,36 +4,53 @@ const { body, validationResult } = require('express-validator');
 const passport = require('passport');
 const { ensureLoggedOut, ensureLoggedIn } = require('connect-ensure-login');
 const { registerValidator } = require('../utils/validators');
+const svgCaptcha = require('svg-captcha');
 
 router.get(
   '/login',
   ensureLoggedOut({ redirectTo: '/' }),
   async (req, res, next) => {
-    res.render('login');
+
+    const captcha = svgCaptcha.create();
+    req.session.captcha = captcha.text;
+
+    res.render('login', { captcha: captcha.data });
   }
 );
 
-router.post(
-  '/login',
-  ensureLoggedOut({ redirectTo: '/' }),
-  passport.authenticate('local', {
-    // successRedirect: '/',
-    //successReturnToOrRedirect: '/',
-    failureRedirect: '/auth/login',
-    failureFlash: true,
-  }),
-  (req, res) => {
-    // Check the user's role and redirect accordingly
-    if (req.user && req.user.role === 'CLIENT') {
-      res.redirect('/user/s_dashboard');
-    } else if (req.user && req.user.role === 'ADMIN') {
-      res.redirect('/admin/a_dashboard');
-    } else {
-      // Handle other cases, e.g., for different roles or a default redirect
-      res.redirect('/');
+router.post('/login', ensureLoggedOut({ redirectTo: '/' }), (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err || !user) {
+      // Authentication failed
+      req.flash('error', 'Invalid username or password');
+      return res.redirect('/auth/login');
     }
-  }
-);
+
+    // Authentication succeeded, now check the captcha
+    const userCaptcha = req.body.captcha;
+    if (userCaptcha !== req.session.captcha) {
+      req.flash('error', 'CAPTCHA verification failed');
+      return res.redirect('/auth/login');
+    }
+
+    // Both authentication and captcha check passed
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (user.role === 'CLIENT') {
+        return res.redirect('/user/s_dashboard');
+      } else if (user.role === 'ADMIN') {
+        return res.redirect('/admin/a_dashboard');
+      } else {
+        return res.redirect('/');
+      }
+    });
+  })(req, res, next);
+});
+
+
 
 router.get(
   '/register',

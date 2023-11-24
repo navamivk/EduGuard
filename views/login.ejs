@@ -9,6 +9,8 @@
     <label for="password">Password</label>
     <input type="password" name="password" id="password" />
   </div>
+  <img src="data:image/svg+xml;charset=utf-8,<%= encodeURIComponent(captcha) %>" alt="captcha" />
+<input type="text" name="captcha" placeholder="Enter CAPTCHA" required />
   <div>
     <input type="submit" value="Login" />
   </div>
