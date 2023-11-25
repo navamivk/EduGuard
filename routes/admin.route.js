@@ -61,7 +61,7 @@ router.post('/update-role', async (req, res, next) => {
       return res.redirect('back');
     }
 
-    // Finally update the user
+
     const user = await User.findByIdAndUpdate(
       id,
       { role },

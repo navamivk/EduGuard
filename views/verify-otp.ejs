@@ -1,0 +1,13 @@
+<%- include('./layouts/header') %>
+<h1>Verify OTP</h1>
+<form action="/auth/verify-otp" method="post" class="lg-form">
+  <div>
+    <label for="otp">Enter OTP</label>
+    <input type="hidden" name="email" value="<%= userEmail %>" />
+    <input type="text" name="otp" id="otp" required />
+  </div>
+  <div>
+    <input type="submit" value="Verify" />
+  </div>
+</form>
+<%- include('./layouts/footer') %>

@@ -5,6 +5,7 @@ const passport = require('passport');
 const { ensureLoggedOut, ensureLoggedIn } = require('connect-ensure-login');
 const { registerValidator } = require('../utils/validators');
 const svgCaptcha = require('svg-captcha');
+const { authenticator, sendOTPEmail } = require('./otpUtils');
 
 router.get(
   '/login',
@@ -19,7 +20,7 @@ router.get(
 );
 
 router.post('/login', ensureLoggedOut({ redirectTo: '/' }), (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
+  passport.authenticate('local', async (err, user, info) => {
     if (err || !user) {
       // Authentication failed
       req.flash('error', 'Invalid username or password');
@@ -33,16 +34,34 @@ router.post('/login', ensureLoggedOut({ redirectTo: '/' }), (req, res, next) => 
       return res.redirect('/auth/login');
     }
 
+
     // Both authentication and captcha check passed
-    req.logIn(user, (err) => {
+    req.logIn(user, async (err) => {
       if (err) {
         return next(err);
       }
 
+      if (user.role === 'ADMIN') {
+        // Generate OTP
+        const otp = authenticator.generate(user.email);
+  
+        // Send OTP via email
+        try {
+          await sendOTPEmail(user.email, otp);
+        } catch (error) {
+          req.flash('error', 'Failed to send OTP');
+          return res.redirect('/auth/login');
+        }
+  
+        // Redirect to OTP verification page
+        req.flash('info', 'OTP sent to your email. Please verify.');
+        return res.render('verify-otp', { userEmail: user.email }); 
+      }
+
       if (user.role === 'CLIENT') {
         return res.redirect('/user/s_dashboard');
-      } else if (user.role === 'ADMIN') {
-        return res.redirect('/admin/a_dashboard');
+      // } else if (user.role === 'ADMIN') {
+      //   return res.redirect('/admin/a_dashboard');
       } else {
         return res.redirect('/');
       }
@@ -50,7 +69,24 @@ router.post('/login', ensureLoggedOut({ redirectTo: '/' }), (req, res, next) => 
   })(req, res, next);
 });
 
+router.post('/verify-otp', (req, res) => {
+  console.log('User Object:', req.user);
+  const enteredOTP = req.body.otp;
+  const userEmail = req.user.email;
+  
+  const isValid = authenticator.verify({
+    token: enteredOTP,
+    secret: userEmail,
+  });
 
+  if (isValid) {
+    return res.redirect('/admin/a_dashboard');
+  } else {
+    req.logout();
+    req.flash('error', 'Invalid OTP');
+    return res.redirect('/auth/login');
+  }
+});
 
 router.get(
   '/register',
