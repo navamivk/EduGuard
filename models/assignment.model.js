@@ -20,7 +20,7 @@ const AssignmentSchema = new mongoose.Schema({
   teacher: {
     id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Admin', // Reference to the Admin model
+      ref: 'Admin', 
       required: true,
     },
     name: {

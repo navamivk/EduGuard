@@ -1,0 +1,25 @@
+<%- include('./layouts/header') %>
+<h1>Add/Update Marks</h1>
+
+<form action="/admin/add-grades" method="post" class="lg-form">
+  <div>
+    <label for="rollNumber">Roll Number:</label>
+    <input type="text" name="rollNumber" id="rollNumber" required />
+  </div>
+
+  <div>
+    <label for="subjectName">Subject Name:</label>
+    <input type="text" name="subjectName" id="subjectName" required />
+  </div>
+
+  <div>
+    <label for="grade">Grade:</label>
+    <input type="text" name="grade" id="grade" required />
+  </div>
+
+  <div>
+    <input type="submit" />
+  </div>
+</form>
+
+<%- include('./layouts/footer') %>

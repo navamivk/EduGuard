@@ -27,13 +27,12 @@ router.post('/login', ensureLoggedOut({ redirectTo: '/' }), (req, res, next) => 
       return res.redirect('/auth/login');
     }
 
-    // Authentication succeeded, now check the captcha
+    // Authentication succeeded, now check captcha
     const userCaptcha = req.body.captcha;
     if (userCaptcha !== req.session.captcha) {
       req.flash('error', 'CAPTCHA verification failed');
       return res.redirect('/auth/login');
     }
-
 
     // Both authentication and captcha check passed
     req.logIn(user, async (err) => {
@@ -42,26 +41,26 @@ router.post('/login', ensureLoggedOut({ redirectTo: '/' }), (req, res, next) => 
       }
 
       if (user.role === 'ADMIN') {
-        // Generate OTP
-        const otp = authenticator.generate(user.email);
-  
-        // Send OTP via email
+
         try {
+          // Generate OTP
+          const otp = authenticator.generate(user.email);
           await sendOTPEmail(user.email, otp);
+
+          req.flash('info', 'OTP sent to your email. Please verify.');
+          res.render('verify-otp', { userEmail: user.email });
+
         } catch (error) {
+          console.error('Error generating or sending OTP:', error);
           req.flash('error', 'Failed to send OTP');
-          return res.redirect('/auth/login');
+          res.redirect('/auth/login');
         }
-  
-        // Redirect to OTP verification page
-        req.flash('info', 'OTP sent to your email. Please verify.');
-        return res.render('verify-otp', { userEmail: user.email }); 
+
       }
 
       if (user.role === 'CLIENT') {
         return res.redirect('/user/s_dashboard');
-      // } else if (user.role === 'ADMIN') {
-      //   return res.redirect('/admin/a_dashboard');
+        
       } else {
         return res.redirect('/');
       }
@@ -109,20 +108,21 @@ router.post(
         });
         res.render('register', {
           name: req.body.name,
+          rollNumber: req.body.rollNumber,
           email: req.body.email,
           messages: req.flash(),
         });
         return;
       }
 
-      const { name, email } = req.body;
+      const { name, rollNumber, email } = req.body;
       const doesExist = await User.findOne({ email });
       if (doesExist) {
         req.flash('warning', 'Username/email already exists');
         res.redirect('/auth/register');
         return;
       }
-      const user = new User({ name, email, ...req.body });
+      const user = new User({ name, rollNumber, email, ...req.body });
       await user.save();
       req.flash(
         'success',

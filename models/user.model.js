@@ -23,7 +23,11 @@ const UserSchema = new mongoose.Schema({
     enum: [roles.admin, roles.moderator, roles.client],
     default: roles.client,
   },
-});
+  rollNumber: {
+    type: String,
+    required: false,
+  },
+} , { strict: false });
 
 UserSchema.pre('save', async function (next) {
   try {
