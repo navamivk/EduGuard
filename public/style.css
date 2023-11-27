@@ -81,7 +81,7 @@ main {
 }
 
 .navbar__links:hover {
-  color: #20B2AA;
+  color: #cc7c7c;
   transition: all 0.3s ease;
 }
 
@@ -254,7 +254,7 @@ thead {
 
 thead tr {
   border-radius: 8px;
-  background-color: #db2777;
+  background-color: #3c0303;
   overflow: hidden;
 }
 
@@ -262,6 +262,7 @@ thead th {
   padding: 8px 0;
   text-align: left;
   padding-left: 16px;
+  min-width: 100px;
 }
 
 table th:first-child {
@@ -272,13 +273,11 @@ table th:last-child {
   border-radius: 0 10px 10px 0;
 }
 
-thead th:nth-child(1) {
-  max-width: 44px;
+
+tbody td {
+  font-weight: normal; 
 }
 
-tbody tr:hover {
-  /* background-color: #fdf2f8; */
-}
 
 tbody tr td {
   padding: 8px 0;
@@ -287,7 +286,7 @@ tbody tr td {
 
 .manage-user-form input[type='submit'] {
   background: transparent;
-  color: #db2777;
+  color: #3c0303;
   border: none;
   outline: none;
   padding: 8px 16px;
@@ -304,14 +303,11 @@ tbody tr td {
   font-size: 1.05rem;
   padding: 6px 12px;
   border-radius: 8px;
-  border: 2px solid #f3f4f6;
+  border: 2px solid #3c0303;
 }
 
 thead tr th:first-child,
 tbody tr td:first-child {
-  width: 6em;
-  min-width: 6em;
-  max-width: 6em;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 8px;
@@ -320,7 +316,7 @@ tbody tr td:first-child {
 .profile {
   min-width: 300px;
   padding: 10px;
-  border: 4px solid #d1d5db;
+  border: 4px solid #3c0303;
   border-radius: 16px;
   margin-top: 32px;
   min-height: 100px;
@@ -331,7 +327,15 @@ tbody tr td:first-child {
 }
 
 .profile .title {
-  font-weight: bold;
+  /* font-weight: bold; */
+  font-size: 1rem;
+  color: #3c0303;
+}
+
+.profile .subtitle {
+  font-weight: normal; 
+  color: #000000;
+  font-size: 0.9rem;
 }
 
 .goback {
@@ -420,5 +424,46 @@ ul.messages * {
 }
 
 .dashboard-button:hover {
-  background-color: #985454; /* Lighter pink on hover */
+  background-color: #985454; 
+}
+
+
+
+p {
+  margin: 8px 0;
+  color: #a22a2a;
+}
+
+strong {
+  font-weight: bold;
+  color: #3c0303;
+}
+
+textarea {
+  width: 100%;
+  height: 200px; /* Adjust the height as needed */
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+form input[type="submit"] {
+  margin: 16px 0;
+  background-color: #3c0303;
+  color: #fff;
+  cursor: pointer;
+  padding: 15px 20px; /* Adjust the padding for button size */
+  border: none;
+  border-radius: 8px; /* Adjust the border-radius for rounded edges */
+  font-size: 18px; /* Adjust the font size */
+  text-align: center;
+}
+
+form input[type="submit"]:hover {
+  background-color: #985454;
+}
+
+h2 {
+  font-weight: bold;
+  color: #3c0303;
+  list-style: none;
 }

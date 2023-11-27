@@ -1,0 +1,24 @@
+<%- include('./layouts/header') %>
+
+<h1 style="color: #3c0303; font-size: 1.5rem;">Assignment Management</h1>
+  
+  <div class="dashboard-container">
+    <div class="dashboard-window">
+      <img class="dashboard-image" src="/images/view.jpg" alt="View">
+      <div class="dashboard-content">
+        <h2>View Submissions</h2>
+        <button class="dashboard-button" onclick="location.href='/admin/add-grades'">View</button>
+      </div>
+    </div>
+    <div class="dashboard-window">
+      <img class="dashboard-image" src="/images/add1.jpg" alt="Add">
+      <div class="dashboard-content">
+        <h2>Add Assignments</h2>
+        <button class="dashboard-button" onclick="location.href='/admin/assignments/create'">Add</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<%- include('./layouts/footer') %>

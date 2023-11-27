@@ -25,17 +25,15 @@
           <ul class="navbar__menu">
                 <li class="navbar__item"><a href="/" class="navbar__links">Home</a></li>
                 <li class="navbar__item">
+                  <a href="#main" class="navbar__links" id="about">About</a>
+                </li>
+                <li class="navbar__item">
                   <a href="#services" class="navbar__links" id="services-page">Services</a>
                 </li>
                 <% if (user) { %>
-                <li class="navbar__item"><a href="/user/profile" class="navbar__links">Profile</a></li>
-                <% if (user.role === 'ADMIN') { %>
-                <li class="navbar__item"><a href="/admin/users" class="navbar__links">Manage Students</a></li>
-                <% } %>
-                <li class="navbar__item"><a href="/auth/logout" class="navbar__links">Logout</a></li>
+                  <li class="navbar__item"><a href="/auth/logout" class="navbar__links">Logout</a></li>
                 <% } else { %>
-                <li class="navbar__item"><a href="/auth/register" class="navbar__links">Register</a></li>
-                <li class="navbar__item"><a href="/auth/login" class="navbar__links">Login</a></li>
+                  <li class="navbar__item"><a href="/auth/login" class="navbar__links">Login</a></li>
                 <% } %>
           </ul>
         </div>
@@ -97,4 +95,3 @@
   <script src="app.js"></script>
   </body>
 </html>
-

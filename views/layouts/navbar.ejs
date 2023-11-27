@@ -10,9 +10,11 @@
       <% if (user) { %>
         <% if (user.role === 'ADMIN') { %>
           <li class="navbar__item"><a href="/admin/a_dashboard" class="navbar__links">Home</a></li>
+          <li class="navbar__item"><a href="/admin/register" class="navbar__links">Register Students</a></li>
           <li class="navbar__item"><a href="/admin/users" class="navbar__links">Manage Students</a></li>
         <% } else if (user.role === 'CLIENT') { %> 
           <li class="navbar__item"><a href="/user/s_dashboard" class="navbar__links">Home</a></li>
+          <li class="navbar__item"><a href="/user/change-password" class="navbar__links">Change Password</a></li>
         <% } %>
         <li class="navbar__item"><a href="/user/profile" class="navbar__links">Profile</a></li>
         <li class="navbar__item"><a href="/auth/logout" class="navbar__links">Logout</a></li>
@@ -21,7 +23,6 @@
         <li class="navbar__item">
           <a href="#services" class="navbar__links" id="services-page">Services</a>
         </li>
-        <li class="navbar__item"><a href="/auth/register" class="navbar__links">Register</a></li>
         <li class="navbar__item"><a href="/auth/login" class="navbar__links">Login</a></li>
       <% } %>
     </ul>

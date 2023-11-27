@@ -2,6 +2,10 @@ const router = require('express').Router();
 const Assignment = require('../models/assignment.model');
 const AssignmentSubmission = require('../models/assignment.submission');
 const Grades = require('../models/grades.model');
+const bcrypt = require('bcrypt');
+const { validationResult } = require('express-validator');
+const { changePasswordValidator } = require('../utils/validators'); 
+const User = require('../models/user.model');
 
 router.get('/profile', async (req, res, next) => {
   // console.log(req.user);
@@ -11,6 +15,48 @@ router.get('/profile', async (req, res, next) => {
 
 router.get('/s_dashboard', async (req, res, next) => {
   res.render('studentdashboard', { user: req.user });
+});
+
+// Change Password Route
+router.get('/change-password', (req, res) => {
+  res.render('change-password', { user: req.user, messages: req.flash() });
+});
+
+router.post('/change-password', changePasswordValidator, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    errors.array().forEach((error) => {
+      req.flash('error', error.msg);
+    });
+    return res.redirect('/user/s_dashboard');
+  }
+
+  const { oldPassword, newPassword } = req.body;
+
+  try {
+
+    // Check if the current password matches the one stored in the database
+    const passwordMatch = await bcrypt.compare(oldPassword, req.user.password);
+
+    if (!passwordMatch) {
+      req.flash('error', 'Current password is incorrect');
+      return res.redirect('/user/s_dashboard');
+    }
+
+    // Update the user's password with the new one
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedNewPassword;
+    await user.save();
+
+    req.flash('success', 'Password changed successfully');
+    res.redirect('/user/s_dashboard'); 
+  } catch (error) {
+    console.error('Error changing password:', error);
+    req.flash('error', 'Failed to change password');
+    res.redirect('/user/s_dashboard');
+  }
 });
 
 router.get('/assignments', async (req, res, next) => {
@@ -44,11 +90,12 @@ router.post('/assignments/submit', async (req, res, next) => {
 
 router.get('/view-grades', async (req, res) => {
   try {
-    console.log('User:', req.user);
-    const Name = req.user.name;
-    console.log('Name:', Name);
-    const email = req.user.email;
-    console.log('email:', email);
+    // const user = req.session.user;
+    // console.log('User:', req.user);
+    // const Name = user.name;
+    // console.log('Name:', Name);
+    // const email = user.email;
+    // console.log('email:', email);
     const rollNumber = req.user.rollNumber;
     console.log('rollNumber:', rollNumber);
     const studentRecord = await Grades.findOne({ rollNumber });
@@ -66,16 +113,5 @@ router.get('/view-grades', async (req, res) => {
     res.redirect('/s_dashboard');
   }
 });
-
-// Function to convert map to table format
-function convertMapToTable(gradesMap) {
-  const table = [];
-  for (const [subject, grade] of Object.entries(gradesMap)) {
-    table.push({ subject, grade });
-  }
-  return table;
-}
-
-
 
 module.exports = router;

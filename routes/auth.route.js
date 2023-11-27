@@ -42,19 +42,21 @@ router.post('/login', ensureLoggedOut({ redirectTo: '/' }), (req, res, next) => 
 
       if (user.role === 'ADMIN') {
 
-        try {
-          // Generate OTP
-          const otp = authenticator.generate(user.email);
-          await sendOTPEmail(user.email, otp);
+        return res.redirect('/admin/a_dashboard');
 
-          req.flash('info', 'OTP sent to your email. Please verify.');
-          res.render('verify-otp', { userEmail: user.email });
+        // try {
+        //   // Generate OTP
+        //   const otp = authenticator.generate(user.email);
+        //   await sendOTPEmail(user.email, otp);
 
-        } catch (error) {
-          console.error('Error generating or sending OTP:', error);
-          req.flash('error', 'Failed to send OTP');
-          res.redirect('/auth/login');
-        }
+        //   req.flash('info', 'OTP sent to your email. Please verify.');
+        //   res.render('verify-otp', { userEmail: user.email });
+
+        // } catch (error) {
+        //   console.error('Error generating or sending OTP:', error);
+        //   req.flash('error', 'Failed to send OTP');
+        //   res.redirect('/auth/login');
+        // }
 
       }
 
@@ -87,53 +89,50 @@ router.post('/verify-otp', (req, res) => {
   }
 });
 
-router.get(
-  '/register',
-  ensureLoggedOut({ redirectTo: '/' }),
-  async (req, res, next) => {
-    res.render('register');
-  }
-);
+// router.get(
+//   '/register',
+//   async (req, res, next) => {
+//     res.render('register');
+//   }
+// );
 
-router.post(
-  '/register',
-  ensureLoggedOut({ redirectTo: '/' }),
-  registerValidator,
-  async (req, res, next) => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        errors.array().forEach((error) => {
-          req.flash('error', error.msg);
-        });
-        res.render('register', {
-          name: req.body.name,
-          rollNumber: req.body.rollNumber,
-          email: req.body.email,
-          messages: req.flash(),
-        });
-        return;
-      }
+// router.post(
+//   '/register',
+//   registerValidator,
+//   async (req, res, next) => {
+//     try {
+//       const errors = validationResult(req);
+//       if (!errors.isEmpty()) {
+//         errors.array().forEach((error) => {
+//           req.flash('error', error.msg);
+//         });
+//         res.render('register', {
+//           name: req.body.name,
+//           rollNumber: req.body.rollNumber,
+//           email: req.body.email,
+//           messages: req.flash(),
+//         });
+//         return;
+//       }
 
-      const { name, rollNumber, email } = req.body;
-      const doesExist = await User.findOne({ email });
-      if (doesExist) {
-        req.flash('warning', 'Username/email already exists');
-        res.redirect('/auth/register');
-        return;
-      }
-      const user = new User({ name, rollNumber, email, ...req.body });
-      await user.save();
-      req.flash(
-        'success',
-        `${user.email} registered succesfully, you can now login`
-      );
-      res.redirect('/auth/login');
-    } catch (error) {
-      next(error);
-    }
-  }
-);
+//       const { name, rollNumber, email, password } = req.body;
+//       const doesExist = await User.findOne({ email });
+//       if (doesExist) {
+//         req.flash('warning', 'Username/email already exists');
+//         res.redirect('/auth/register');
+//         return;
+//       }
+//       const user = new User({ name, rollNumber, email, password });
+//       await user.save();
+//       req.flash(
+//         'success',
+//         `${user.email} registered succesfully.`
+//       );
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// );
 
 router.get(
   '/logout',

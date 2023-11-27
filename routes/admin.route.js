@@ -4,6 +4,8 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const { roles } = require('../utils/constants');
 const Grades = require('../models/grades.model');
+const { registerValidator } = require('../utils/validators');
+const { body, validationResult } = require('express-validator');
 
 router.get('/users', async (req, res, next) => {
   try {
@@ -84,6 +86,15 @@ router.get('/a_dashboard', async (req, res, next) => {
   }
 });
 
+router.get('/admin-assignment', async (req, res, next) => {
+  
+  try{
+    res.render('admin-assignment', { user: req.user });
+  }catch(error){
+    next(error);
+  }
+});
+
 
 // Route to render the assignment creation form
 router.get('/assignments/create', async (req, res, next) => {
@@ -143,7 +154,7 @@ router.get('/assignments/:id', async (req, res, next) => {
       return;
     }
 
-    const adminId = req.user._id; // MongoDB ObjectId for the admin
+    const adminId = req.user._id; 
     const assignment = await Assignment.findOne({ _id: id, 'teacher.id': adminId });
 
     if (!assignment) {
@@ -191,6 +202,55 @@ router.post('/add-grades', async (req, res) => {
     res.redirect('/admin/add-grades');
   }
 });
+
+router.get(
+  '/register',
+  async (req, res, next) => {
+    res.render('register');
+  }
+);
+
+router.post(
+  '/register',
+  registerValidator,
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        errors.array().forEach((error) => {
+          req.flash('error', error.msg);
+        });
+        res.render('register', {  
+          name: req.body.name,
+          rollNumber: req.body.rollNumber,
+          email: req.body.email,
+          messages: req.flash(),
+        });
+        return;
+      }
+
+      const { name, rollNumber, email, password } = req.body;
+
+
+      const doesExist = await User.findOne({ email });
+      if (doesExist) {
+        req.flash('warning', 'Username/email already exists');
+        res.redirect('/admin/register');  
+        return;
+      }
+      const user = new User({ name, rollNumber, email, password });
+      await user.save();
+      req.flash(
+        'success',
+        `${user.email} registered successfully.`
+      );
+      res.redirect('/admin/register');  
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 
 
 

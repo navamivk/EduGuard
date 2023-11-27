@@ -15,7 +15,7 @@
                 <p><strong>Description:</strong> <%= assignment.description %></p>
                 <p><strong>Deadline:</strong> <%= assignment.deadline %></p>
                 <p><strong>Teacher:</strong> <%= assignment.teacher.name %></p>
-                <form action="/student/assignments/submit" method="post" class="lg-form">
+                <form action="/student/assignments/submit" method="post">
                     <input type="hidden" name="assignmentId" value="<%= assignment._id %>" />
                     <textarea name="submissionText" placeholder="Your submission text"></textarea>
                     <div>
