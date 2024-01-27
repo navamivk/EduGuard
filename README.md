@@ -9,7 +9,11 @@ This project is an E-Learning website developed using MongoDB for the database, 
 - Student Features:
   - View Grades
   - Submit Assignments
-  - Registration: Students can register by creating a basic account with a simple password, and is then prompted to change the password to meet advanced rules.
+  - Registration: Students can register by creating a basic account with a simple password, and is then prompted to change the password to meet the following rules:
+    - Minimum 6 characters
+    - At least one uppercase letter
+    - At least one numeric character
+    - At least one special character
 
 - Teacher Features:
   - Update Grades
@@ -21,15 +25,7 @@ This project is an E-Learning website developed using MongoDB for the database, 
   - Admins (typically teachers) have privileged roles:
     - Authority to register students into the database.
     - Manage user roles: Admins can promote/demote users based on academic responsibilities.
-
-- Password Policy:
-  - During registration, students create a basic account with a simple password.
-  - Students are prompted to change their password, which must adhere to the following rules:
-    - Minimum 6 characters
-    - At least one uppercase letter
-    - At least one numeric character
-    - At least one special character
-
+    
 - Login Features:
   - Captcha: Implemented Node.js captcha.
   - 2FA Authentication with Email OTP for admin login for enhanced security.
