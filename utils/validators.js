@@ -6,7 +6,13 @@ module.exports = {
       .isEmail()
       .withMessage('Email must be a valid email')
       .normalizeEmail()
-      .toLowerCase(),
+      .toLowerCase()
+      .custom((value) => {
+        if (!value.endsWith('.edu')) {
+          throw new Error('Only .edu email addresses are allowed');
+        }
+        return true;
+      }),
     body('password')
       .trim()
       .isLength(2)

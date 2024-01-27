@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const Assignment = require('../models/assignment.model');
+const AssignmentSubmission = require('../models/assignment.submission');
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const { roles } = require('../utils/constants');
@@ -131,39 +132,25 @@ router.post('/assignments', async (req, res, next) => {
   }
 });
 
-// View list of assignments by admin ID
-router.get('/assignments', async (req, res, next) => {
+// // View list of assignments by admin ID
+// router.get('/assignments', async (req, res, next) => {
+//   try {
+//     const adminId = req.user._id; 
+
+//     const assignments = await Assignment.find({ 'teacher.id': adminId });
+//     res.render('assignments', { assignments });
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+router.get('/view-assignments',  async (req, res, next) => {
   try {
-    const adminId = req.user._id; 
+    const adminId = req.user._id;
 
-    const assignments = await Assignment.find({ 'teacher.id': adminId });
-    res.render('assignments', { assignments });
-  } catch (error) {
-    next(error);
-  }
-});
+    const submissions = await AssignmentSubmission.find({ 'teacher': adminId });
 
-// View assignment details by admin ID
-router.get('/assignments/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      req.flash('error', 'Invalid assignment ID');
-      res.redirect('/admin/assignments');
-      return;
-    }
-
-    const adminId = req.user._id; 
-    const assignment = await Assignment.findOne({ _id: id, 'teacher.id': adminId });
-
-    if (!assignment) {
-      req.flash('error', 'Assignment not found for the admin');
-      res.redirect('/admin/assignments');
-      return;
-    }
-
-    res.render('assignment-details', { assignment });
+    res.render('view-assignment', { submissions }); 
   } catch (error) {
     next(error);
   }

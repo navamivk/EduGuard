@@ -42,21 +42,19 @@ router.post('/login', ensureLoggedOut({ redirectTo: '/' }), (req, res, next) => 
 
       if (user.role === 'ADMIN') {
 
-        return res.redirect('/admin/a_dashboard');
+        try {
+          // Generate OTP
+          const otp = authenticator.generate(user.email);
+          await sendOTPEmail(user.email, otp);
 
-        // try {
-        //   // Generate OTP
-        //   const otp = authenticator.generate(user.email);
-        //   await sendOTPEmail(user.email, otp);
+          req.flash('info', 'OTP sent to your email. Please verify.');
+          res.render('verify-otp', { userEmail: user.email });
 
-        //   req.flash('info', 'OTP sent to your email. Please verify.');
-        //   res.render('verify-otp', { userEmail: user.email });
-
-        // } catch (error) {
-        //   console.error('Error generating or sending OTP:', error);
-        //   req.flash('error', 'Failed to send OTP');
-        //   res.redirect('/auth/login');
-        // }
+        } catch (error) {
+          console.error('Error generating or sending OTP:', error);
+          req.flash('error', 'Failed to send OTP');
+          res.redirect('/auth/login');
+        }
 
       }
 

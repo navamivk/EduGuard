@@ -1,0 +1,29 @@
+<%- include('./layouts/header') %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submitted Assignments</title>
+</head>
+<body>
+    <h1>Submitted Assignments</h1>
+    <% if (submissions.length > 0) { %>
+        <ul>
+          <% submissions.forEach(submission => { %>
+            <li>
+                <h2>Title: <%= submission.title %></h2>
+                <p><strong>Roll Number:</strong> <%= submission.rollNumber %></p>
+                <p><strong>Submission Date:</strong> <%= submission.submissionDate.toLocaleString() %></p>
+                <p><strong>Content:</strong> <%= submission.content %></p>
+            </li>
+        <% }); %>
+    </ul>
+    <% } else { %>
+        <p>No submissions available.</p>
+      <% } %>
+
+</body>
+</html>
+
+<%- include('./layouts/footer') %>
+

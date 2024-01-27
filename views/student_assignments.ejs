@@ -13,10 +13,12 @@
                 <h2><%= assignment.title %></h2>
                 <p><strong>Subject:</strong> <%= assignment.subject %></p>
                 <p><strong>Description:</strong> <%= assignment.description %></p>
-                <p><strong>Deadline:</strong> <%= assignment.deadline %></p>
+                <p><strong>Deadline:</strong> <%= assignment.deadline.toLocaleString() %></p>
                 <p><strong>Teacher:</strong> <%= assignment.teacher.name %></p>
-                <form action="/student/assignments/submit" method="post">
+                <form action="/user/assignments/submit" method="post">
                     <input type="hidden" name="assignmentId" value="<%= assignment._id %>" />
+                    <input type="hidden" name="title" value="<%= assignment.title %>" />
+                    <input type="hidden" name="teacherId" value="<%= assignment.teacher.id %>" />
                     <textarea name="submissionText" placeholder="Your submission text"></textarea>
                     <div>
                         <input type="submit" value="Submit Assignment" />

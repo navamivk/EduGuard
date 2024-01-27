@@ -7,6 +7,7 @@ const { validationResult } = require('express-validator');
 const { changePasswordValidator } = require('../utils/validators'); 
 const User = require('../models/user.model');
 
+
 router.get('/profile', async (req, res, next) => {
   // console.log(req.user);
   const person = req.user;
@@ -70,19 +71,23 @@ router.get('/assignments', async (req, res, next) => {
 
 router.post('/assignments/submit', async (req, res, next) => {
   try {
-    const { assignmentId, submissionText} = req.body;
-    const studentId = req.user._id; 
+    const { assignmentId, title, teacherId, submissionText} = req.body;
+    const studentId = req.user._id;
+    const rollNumber = req.user.rollNumber;  
 
     const submission = new AssignmentSubmission({
-      assignment: assignmentId, 
+      assignment: assignmentId,
+      title: title ,
       student: studentId, 
+      rollNumber: rollNumber,
+      teacher: teacherId,
       submissionDate: new Date(),
       content: submissionText, 
     });
     
     await submission.save();
     req.flash('success', 'Assignment submitted successfully');
-    res.redirect('/student/assignments');
+    res.redirect('/user/assignments');
   } catch (error) {
     next(error);
   }

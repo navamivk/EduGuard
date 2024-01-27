@@ -3,11 +3,23 @@ const mongoose = require('mongoose');
 const AssignmentSubmissionSchema = new mongoose.Schema({
   assignment: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Assignment', // Reference to the Assignment model
+    ref: 'Assignment', 
+  },
+  title: {
+    type: String,
+    ref: 'Assignment', 
   },
   student: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model
+    ref: 'User', 
+  },
+  rollNumber: {
+    type: String,
+    ref: 'User', 
+  },
+  teacher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', 
   },
   submissionDate: {
     type: Date,
